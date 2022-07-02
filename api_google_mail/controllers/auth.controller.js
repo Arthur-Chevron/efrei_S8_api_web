@@ -28,7 +28,10 @@ exports.login = async (req, res) => {
 
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: 'offline',
-      scope: [process.env.GOOGLE_SCOPE]
+      scope: [
+        process.env.GOOGLE_SCOPE_GMAIL_READ,
+        process.env.GOOGLE_SCOPE_GMAIL_MODIFY,
+      ]
     })
 
     return res.redirect(authUrl)

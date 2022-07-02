@@ -7,5 +7,7 @@ module.exports = (app) =>{
 
   router.get('/one', verify, mail.getAMail)
 
+  router.put('/one', verify, mail.readAMail)
+
   app.use("/mail", router)
 }
