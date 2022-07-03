@@ -3,12 +3,14 @@ import Router from "vue-router"
 Vue.use(Router)
 
 const VueLogin = () => import("./views/Login")
+const VueLoginTask = () => import("./views/LoginTask")
 const VueHome = () => import("./views/Home")
 const VueMail = () => import("./views/Mail")
 const Vue404 = () => import("./views/Error404")
 
 // attribution des paths
 const Login = { path: '/', name: 'Login', component: VueLogin }
+const LoginTask = { path: '/login', name: 'LoginTask', component: VueLoginTask }
 const Home = { path: '/browser', name: 'Home', component: VueHome }
 const Mail = { path: '/mail', name: 'Mail', component: VueMail }
 const Error = { path: '/:catchAll(.*)', name: "ErrorPage", component: Vue404}
@@ -17,6 +19,7 @@ const Error = { path: '/:catchAll(.*)', name: "ErrorPage", component: Vue404}
 // 1. Définition des routes
 const routes = [
     Login,
+    LoginTask,
     Home,
     Mail,
     /* always at the end */

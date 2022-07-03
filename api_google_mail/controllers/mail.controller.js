@@ -4,6 +4,7 @@ const { google } = require('googleapis')
 exports.listAllMail = async (req, response) => {
     const auth = req.userId
     const pageToken = req.query.pageToken
+    const labelIds = req.query.labelIds
 
     // if (!pageToken || pageToken < 0) return response.status(400).send({message: "Required Paramaters page is undefined or invalid"})
 
@@ -14,7 +15,8 @@ exports.listAllMail = async (req, response) => {
         const res = await service.users.messages.list({
             maxResults: 20,
             userId: 'me',
-            pageToken: pageToken
+            pageToken: pageToken,
+            labelIds: labelIds
         })
 
         // return all informations

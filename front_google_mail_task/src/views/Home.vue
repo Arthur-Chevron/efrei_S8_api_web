@@ -5,6 +5,31 @@
         />
 
         <div class="home-sub-menu">
+            <div
+                class="home-sub-menu__labels hover"
+                v-bind:class="{'home-sub-menu__labels-active': labelIds === 'INBOX'}"
+                v-on:click="labelIds = 'INBOX'; getAllEmail()"
+            >
+                <p>Inbox</p>
+            </div>
+
+            <div
+                class="home-sub-menu__labels hover"
+                v-bind:class="{'home-sub-menu__labels-active': labelIds === 'SENT'}"
+                v-on:click="labelIds = 'SENT'; getAllEmail()"
+            >
+                <p>Sent</p>
+            </div>
+
+            <div class="home-sub-menu__actualise hover">
+                <svg
+                    v-on:click="getAllEmail()"
+                    width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M15.0031 1.03469V5.69082C15.0031 6.26281 14.5404 6.72551 13.9684 6.72551H9.31225C8.74026 6.72551 8.27756 6.26281 8.27756 5.69082C8.27756 5.11883 8.74026 4.65613 9.31225 4.65613H11.3619C10.3929 3.37246 8.8641 2.59385 7.23607 2.59385C4.38775 2.59385 2.06939 4.91157 2.06939 7.76021C2.06939 10.6089 4.38743 12.9272 7.2364 12.9272C8.36421 12.9272 9.43609 12.5706 10.3366 11.8945C10.7964 11.554 11.4431 11.6439 11.7855 12.1006C12.1279 12.5584 12.0361 13.2071 11.5794 13.5495C10.3174 14.4962 8.81932 15 7.24011 15C3.24959 14.9998 0 11.7503 0 7.76021C0 3.77017 3.24959 0.520581 7.23963 0.520581C9.47554 0.520581 11.5724 1.57047 12.9337 3.3052V1.03469C12.9337 0.462702 13.3964 0 13.9684 0C14.5404 0 15.0031 0.462702 15.0031 1.03469Z" fill="black"/>
+                </svg>
+            </div>
+
             <div class="home-sub-menu__arrow hover">
                 <svg
                     v-on:click="indexPage -= 1; getAllEmail()"
@@ -39,6 +64,11 @@
                 <p class="home-email__one-email__p">{{ mail.date }}</p>
             </div>
         </div>
+
+        <Loading
+            class="home__loading-vue"
+            :loading="loading"
+        />
     </div>
 </template>
 
@@ -49,14 +79,20 @@
         name: "Home",
 
         components: {
-            Menu: () => import('../components/Menu.vue')
+            Menu: () => import('../components/Menu'),
+            Loading: () => import('../components/Loading'),
+        },
+
+        props: {
+            loading: Boolean
         },
 
         data: () => ({
             allEmail: [],
             allEmailDisplay: [],
             nextPageToken: [''],
-            indexPage: 0
+            indexPage: 0,
+            labelIds: 'INBOX'
         }),
 
         async created() {
@@ -75,13 +111,11 @@
                     this.allEmail.splice(0, this.allEmail.length)
                     this.allEmailDisplay.splice(0, this.allEmailDisplay.length)
 
-                    const res = await axios.get(process.env.VUE_APP_URL_MAIL_API + '/mail?pageToken=' + this.nextPageToken[this.indexPage])
+                    const res = await axios.get(process.env.VUE_APP_URL_MAIL_API + '/mail?labelIds=' + this.labelIds +  '&pageToken=' + this.nextPageToken[this.indexPage])
 
                     // empty all array to have new values
                     this.allEmail.splice(0, this.allEmail.length)
                     this.allEmailDisplay.splice(0, this.allEmailDisplay.length)
-
-                    console.log(res.data.data.data.messages)
 
                     this.allEmail = res.data.data.data.messages
                     this.nextPageToken.push(res.data.data.data.nextPageToken)
@@ -91,8 +125,8 @@
                     }
 
                 } catch(err) {
-                    console.log(err)
-                    return this.$router.push({path: '/'})
+                    if (err.code === 'ERR_NETWORK') return this.$router.go()
+                    else return this.$router.push({path: '/'})
                 }
                 
                 // put in loading
@@ -126,7 +160,6 @@
 
             // open modal tasks to do what we want
             openTasks(value) {
-                console.log(value)
                 return this.$emit('open-tasks', value)
             }
         }
@@ -138,6 +171,7 @@
 
 .home {
     padding: 2% 0;
+    position: relative;
 }
 
 .home__menu {
@@ -161,14 +195,32 @@
     margin-left: 3%;
 }
 
-.home-sub-menu__arrow {
-    width: 3%;
+.home-sub-menu__labels {
+    width: 5%;
+    margin-right: 2%;
+    text-align: left;
+    padding: 0 1%;
 }
 
+.home-sub-menu__labels:hover {
+    border-bottom: 1px solid var(--red-google);
+} 
+
+.home-sub-menu__labels-active {
+    border-bottom: 2px solid var(--red-google)!important;
+}
+
+.home-sub-menu__labels-active:hover {
+    border-bottom: 2px solid var(--red-google)!important;
+}
+
+.home-sub-menu__arrow, .home-sub-menu__actualise {
+    width: 3%;
+}
 .home-email__received {
     display: flex;
     flex-direction: column;
-    padding-top: 2%;
+    padding-top: 4%;
 }
 
 .home-email__one-email {
@@ -222,6 +274,17 @@
 
 .home-email__one-email__p-snippet {
     color: var(--grey-dark);
+}
+
+.home__loading-vue {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    padding: 0.75% 2%;
+    width: 93%;
+    margin-left: 4%;
+    height: 100vh;
 }
 
 </style>

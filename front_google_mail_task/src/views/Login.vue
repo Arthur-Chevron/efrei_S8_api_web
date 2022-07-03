@@ -24,7 +24,10 @@
 
                     const res = await axios.get(process.env.VUE_APP_URL_MAIL_API + '/auth')
 
-                    window.open(res.data.url)
+                    // window.open(res.data.url)
+                    // window.open(res.data.url, "Login Google Gmail", "height=200,width=200");
+                    window.open(res.data.url, '_self')
+
 
                 } catch(err) {
                     return console.log(err)

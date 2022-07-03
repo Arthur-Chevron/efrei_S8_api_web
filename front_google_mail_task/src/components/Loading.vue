@@ -1,6 +1,11 @@
 <template>
   <div class="loading" v-if="loading">
-    <div class="loading__circle"></div>
+    <div class="wrapper">
+        <div class="blue ball"></div>
+        <div class="red ball"></div>  
+        <div class="yellow ball"></div>  
+        <div class="green ball"></div>  
+    </div>
   </div>
 </template>
 
@@ -34,35 +39,59 @@
   }
 }
 .loading {
-  z-index: 1000;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
+  z-index: 5;
   background: white;
 }
-.loading__circle {
-  position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  transform: translate(calc(-50% + 30px), calc(-50% + 30px));
-  width: 30px;
-  height: 30px;
-  margin: auto;
-  border:solid 2px black;
-  border-radius: 50%;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  -webkit-transition: all 1s ease-in;
-  -webkit-animation-name:             rotate;
-  -webkit-animation-duration:         1.0s;
-  -webkit-animation-iteration-count:  infinite;
-  -webkit-animation-timing-function: linear;
-  transition: all 1s ease-in;
-  animation-name:             rotate;
-  animation-duration:         1.0s;
-  animation-iteration-count:  infinite;
-  animation-timing-function: linear;
+
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
 }
+.ball {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  margin: 0 10px;
+}
+
+.blue   { background-color: #4285F5; }
+.red    { background-color: #EA4436; }
+.yellow { background-color: #FBBD06; }
+.green  { background-color: #34A952; }
+
+@keyframes bounce {
+  50% {
+    transform: translateY(25px);
+  }
+}
+
+.ball {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  margin: 0 10px;
+
+  animation: 2s bounce ease infinite;
+}
+
+.red {
+  background-color: #EA4436;
+  animation-delay: .25s;
+}
+
+.yellow {
+  background-color: #FBBD06;
+  animation-delay: .5s;
+}
+
+.green {
+  background-color: #34A952;
+  animation-delay: .75s;
+}
+
+
+
 </style>
