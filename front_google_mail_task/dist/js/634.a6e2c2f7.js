@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkfront_google_mail_task"]=self["webpackChunkfront_google_mail_task"]||[]).push([[634],{6634:function(r,e,t){t.r(e),t.d(e,{default:function(){return f}});var n,u,l={name:"Error404",created(){return this.$router.push({path:"/browser"})}},o=l,a=t(1001),s=(0,a.Z)(o,n,u,!1,null,null,null),f=s.exports}}]);
+//# sourceMappingURL=634.a6e2c2f7.js.map

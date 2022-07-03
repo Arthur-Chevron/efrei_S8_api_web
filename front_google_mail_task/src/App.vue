@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view
+      @in-loading="inLoading"
+    />
+
+    <Loading
+      :loading="loading"
+    />
   </div>
 </template>
 
@@ -8,6 +14,21 @@
 
 export default {
   name: 'App',
+
+  components: {
+    Loading: () => import('./components/Loading.vue')
+  },
+
+  data: () => ({
+    loading: false
+  }),
+
+  methods: {
+    // when we load data from api
+    inLoading(value) {
+      // this.loading = value
+    }
+  }
 }
 </script>
 
@@ -18,7 +39,22 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+body {
+  padding: 0;
+}
+
+:root {
+  --black: #1D1D1D;
+  --grey: #D1D1D1;
+  --light-grey: rgba(242,245,245,0.8);
+  --blue-google: #1a73e8;
+
+}
+
+.hover:hover {
+  cursor: pointer;
 }
 
 </style>

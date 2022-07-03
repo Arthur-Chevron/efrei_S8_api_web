@@ -12,7 +12,7 @@ exports.listAllMail = async (req, response) => {
 
         // get all mails of the user; limit = 100 default value
         const res = await service.users.messages.list({
-            // maxResults: 20,
+            maxResults: 20,
             userId: 'me',
             pageToken: pageToken
         })

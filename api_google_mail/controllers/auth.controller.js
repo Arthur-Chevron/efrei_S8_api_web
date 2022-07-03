@@ -31,10 +31,13 @@ exports.login = async (req, res) => {
       scope: [
         process.env.GOOGLE_SCOPE_GMAIL_READ,
         process.env.GOOGLE_SCOPE_GMAIL_MODIFY,
+        process.env.GOOGLE_SCOPE_GMAIL_READ_ONE_MAIL
       ]
     })
 
-    return res.redirect(authUrl)
+
+    return res.status(200).send({url: authUrl})
+    // return res.redirect(authUrl)
 
   } catch(err) {
     return res.status(500).send({err: err})
@@ -62,8 +65,8 @@ exports.confirmLogin = async (req, res) => {
       fs.writeFile(process.env.TOKEN_PATH, JSON.stringify(token), (err) => {
         if (err) return res.status(500).send({err: err})
         req.userId = oAuth2Client
-        console.log(req.userId)
-        return res.status(200).send({message: 'Token stored to ' + process.env.TOKEN_PATH})
+
+        return res.redirect(process.env.URL_FRONT)
       })
 
     })
