@@ -11,12 +11,14 @@ exports.listAllTasks = async (req, response) => {
         const service = google.tasks({version: 'v1', auth});
 
         // get all lists task of the user; limit = 10
-        res = await service.tasklists.list({maxResults: 1})
+        res = await service.tasklists.list({maxResults: 10})
 
         // get all tasks of each tasks
         res.data.items.forEach(task => {
             allList.push(task)
         })
+
+        console.log(res.data.items)
 
         // get all tasks' informations of each tasks list
         for (const item of allList) {

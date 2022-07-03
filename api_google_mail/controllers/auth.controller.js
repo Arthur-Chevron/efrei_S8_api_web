@@ -5,7 +5,7 @@ exports.verify = async(req, res, next) => {
   const oAuth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_ID_CLIENT,
     process.env.GOOGLE_SECRET_CLIENT,
-    process.env.LINK + process.env.PORT
+    process.env.LINK + process.env.PORT + process.env.GOOGLE_REDIRECT
   )
 
   // Check if we have previously stored a token.

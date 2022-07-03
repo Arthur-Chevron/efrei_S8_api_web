@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        <Menu class="home__menu" />
+        <Menu class="home__menu"
+            @open-tasks="openTasks"
+        />
 
         <div class="home-sub-menu">
             <div class="home-sub-menu__arrow hover">
@@ -90,6 +92,7 @@
 
                 } catch(err) {
                     console.log(err)
+                    return this.$router.push({path: '/'})
                 }
                 
                 // put in loading
@@ -117,7 +120,14 @@
 
                 } catch(err) {
                     console.log(err)
+                    return this.$router.push({path: '/'})
                 }
+            },
+
+            // open modal tasks to do what we want
+            openTasks(value) {
+                console.log(value)
+                return this.$emit('open-tasks', value)
             }
         }
     }
@@ -211,7 +221,7 @@
 }
 
 .home-email__one-email__p-snippet {
-    color: var(--grey);
+    color: var(--grey-dark);
 }
 
 </style>
