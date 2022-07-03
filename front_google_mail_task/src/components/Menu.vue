@@ -1,6 +1,6 @@
 <template>
     <div class="menu">
-        <div class="menu__logo menu__logo-tasks hover"></div>
+        <div class="menu__logo menu__logo-tasks hover"  v-on:click="$emit('open-tasks', true)"></div>
         <div class="menu__logo menu__logo-gmail hover"></div>
     </div>
 </template>
