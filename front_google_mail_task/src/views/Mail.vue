@@ -37,6 +37,7 @@
 
         async created() {
             await this.getOneEmail(this.$route.query.id)
+            if (this.email.unread) await this.modifyOneEmail(this.$route.query.id)
         }, 
 
         methods: {
@@ -61,6 +62,11 @@
                 } catch(err) {
                     console.log(err)
                 }
+            },
+
+            async modifyOneEmail(id) {
+                const res = await axios.put(process.env.VUE_APP_URL_MAIL_API + '/mail/one?id=' + id, {removeLabelIds: ['UNREAD']})
+                this.email.unread = false
             },
 
             // open modal tasks to do what we want

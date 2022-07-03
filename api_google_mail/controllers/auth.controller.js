@@ -29,9 +29,11 @@ exports.login = async (req, res) => {
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: [
-        process.env.GOOGLE_SCOPE_GMAIL_READ,
-        process.env.GOOGLE_SCOPE_GMAIL_MODIFY,
-        process.env.GOOGLE_SCOPE_GMAIL_READ_ONE_MAIL
+        'https://mail.google.com/',
+        'https://www.googleapis.com/auth/gmail.addons.current.message.action',
+        'https://www.googleapis.com/auth/gmail.addons.current.message.readonly',
+        'https://www.googleapis.com/auth/gmail.modify',
+        'https://www.googleapis.com/auth/gmail.readonly'
       ]
     })
 
